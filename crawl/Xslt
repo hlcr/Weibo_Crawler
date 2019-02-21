@@ -1,0 +1,80 @@
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" >
+<xsl:template match="/">
+<list>
+<xsl:apply-templates select="//*[@class='WB_cardwrap S_bg2 clearfix' and count(./../*[@class='WB_cardwrap S_bg2 clearfix' and count(.//*[@class='W_texta W_fb']/@title)>0 and count(./.)>0])>0]" mode="list"/>
+</list>
+</xsl:template>
+
+
+
+<xsl:template name="listItem">
+<item>
+<head>
+<xsl:value-of select="*//*[@class='face']/a/img/@src"/>
+<xsl:value-of select="*[@class='face']/a/img/@src"/>
+<xsl:if test="@class='face'">
+<xsl:value-of select="a/img/@src"/>
+</xsl:if>
+</head>
+<id>
+<xsl:value-of select="substring-after(substring-before(*//*[@class='W_texta W_fb']/@usercard,'&amp;'),'id=')"/>
+</id>
+<nickName>
+<xsl:value-of select="*//*[@class='W_texta W_fb']/@title"/>
+<xsl:value-of select="*[@class='W_texta W_fb']/@title"/>
+<xsl:if test="@class='W_texta W_fb'">
+<xsl:value-of select="@title"/>
+</xsl:if>
+</nickName>
+<host>
+<xsl:value-of select="*//*[@class='W_texta W_fb']/@href"/>
+<xsl:value-of select="*[@class='W_texta W_fb']/@href"/>
+<xsl:if test="@class='W_texta W_fb'">
+<xsl:value-of select="@href"/>
+</xsl:if>
+</host>
+<content>
+<xsl:value-of select="*//*[@class='comment_txt']"/>
+<xsl:value-of select="*[@class='comment_txt']"/>
+</content>
+<passageId>
+<xsl:value-of select=".//div[contains(@class, 'content')]/div[@class='feed_from W_textb']/a[1]/@href"/>
+</passageId>
+<time>
+<xsl:value-of select=".//div[contains(@class, 'content')]/div[@class='feed_from W_textb']/a[1]/@title"/>
+</time>
+<terminal>
+<xsl:value-of select=".//div[contains(@class, 'content')]/div[@class='feed_from W_textb']/a[contains(preceding-sibling::text()[1],'来自')]/text()"/>
+</terminal>
+<forwardNum>
+<xsl:value-of select="*//*[@class='line S_line1']/em"/>
+<xsl:value-of select="*[@class='line S_line1']/em"/>
+<xsl:if test="@class='line S_line1'">
+<xsl:value-of select="em"/>
+</xsl:if>
+</forwardNum>
+<commentNum>
+<xsl:value-of select="*//*[@class='feed_action_info feed_action_row4']/li[position()=3]/a/span/em/text()"/>
+<xsl:value-of select="*[@class='feed_action_info feed_action_row4']/li[position()=3]/a/span/em/text()"/>
+<xsl:if test="@class='feed_action_info feed_action_row4'">
+<xsl:value-of select="li[position()=3]/a/span/em/text()"/>
+</xsl:if>
+</commentNum>
+<likeNum>
+<xsl:value-of select="*//*[@class='feed_action_info feed_action_row4']/li[position()=4]/a/span/em/text()"/>
+<xsl:value-of select="*[@class='feed_action_info feed_action_row4']/li[position()=4]/a/span/em/text()"/>
+<xsl:if test="@class='feed_action_info feed_action_row4'">
+<xsl:value-of select="li[position()=4]/a/span/em/text()"/>
+</xsl:if>
+</likeNum>
+</item>
+</xsl:template>
+
+<xsl:template match="//*[@class='WB_cardwrap S_bg2 clearfix' and count(./../*[@class='WB_cardwrap S_bg2 clearfix' and count(.//*[@class='W_texta W_fb']/@title)>0 and count(./.)>0])>0]" mode="list">
+<item>
+<listItem>
+<xsl:call-template name="listItem"/>
+</listItem>
+</item>
+</xsl:template>
+</xsl:stylesheet>
